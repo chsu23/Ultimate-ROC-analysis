@@ -1,6 +1,6 @@
-# ROC Analysis Tool
+# Ultimate ROC Analysis Tool
 
-A browser-based ROC analysis application that can be deployed directly to GitHub Pages. All statistical calculations run in the user's browser; no Python installation, backend server, or database is required.
+All statistical calculations run in the user's browser; no Python installation, backend server, or database is required.
 
 ## Features
 
@@ -22,25 +22,6 @@ A browser-based ROC analysis application that can be deployed directly to GitHub
 - `sample_data.csv`: Example CSV dataset
 - `.nojekyll`: Publishes the repository as static files without Jekyll processing
 
-## Deploy to GitHub Pages
-
-1. Create a new GitHub repository.
-2. Upload all files from this folder to the repository root.
-3. Open the repository **Settings**.
-4. Select **Pages** in the left sidebar.
-5. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
-6. Select the `main` branch and `/(root)` folder, then click **Save**.
-7. After deployment is complete, open the URL displayed in the Pages settings.
-
-A project-site URL usually follows this format:
-
-```text
-https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/
-```
-
-## Updating the Site
-
-Edit or replace `index.html` on the `main` branch. GitHub Pages will redeploy the site automatically.
 
 ## Data Privacy
 
