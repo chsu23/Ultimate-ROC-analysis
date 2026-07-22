@@ -15,13 +15,6 @@ All statistical calculations run in the user's browser; no Python installation, 
 - Optional McNemar's test for paired accuracy comparison
 - Downloadable ROC plots and Excel/CSV results
 
-## Repository Contents
-
-- `index.html`: Main web application
-- `sample_data.xlsx`: Example Excel dataset
-- `sample_data.csv`: Example CSV dataset
-- `.nojekyll`: Publishes the repository as static files without Jekyll processing
-
 
 ## Data Privacy
 
