@@ -10,7 +10,9 @@
 header{background:linear-gradient(120deg,#163a8a,#2457c5);color:#fff;padding:30px 20px} header .wrap{max-width:1180px;margin:auto} h1{margin:0 0 6px;font-size:30px} header p{margin:0;opacity:.9}
 main{max-width:1180px;margin:22px auto 50px;padding:0 16px}.card{background:var(--card);border:1px solid #e5e9f0;border-radius:14px;box-shadow:var(--shadow);padding:20px;margin-bottom:18px}
 h2{font-size:20px;margin:0 0 14px} h3{font-size:17px;margin:18px 0 10px}.note{padding:12px 14px;background:#eef4ff;border-left:4px solid var(--accent);border-radius:8px;color:#29456f}.warning{background:#fff7ed;border-left-color:#f79009;color:#7a2e0e}.error{background:#fef3f2;border-left-color:#d92d20;color:#7a271a}.success{background:#ecfdf3;border-left-color:#12b76a;color:#05603a}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.field label{display:block;font-weight:650;margin-bottom:6px}.field small{display:block;color:var(--muted);margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.marker-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 16px;margin-top:16px;align-items:start}.marker-grid .field{min-width:0}.marker-grid .field small{min-height:42px}.marker-full{grid-column:1 / -1}.marker-pair-title{grid-column:1 / -1;margin:4px 0 -4px;font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.field label{display:block;font-weight:650;margin-bottom:6px}.field small{display:block;color:var(--muted);margin-top:4px}
 input[type=file],select,input[type=number],button{font:inherit} input[type=file],select,input[type=number]{width:100%;padding:10px 11px;border:1px solid #cfd6e2;border-radius:9px;background:#fff;color:var(--ink)} select:focus,input:focus{outline:2px solid #b2ccff;border-color:var(--accent)}
 .checkline{display:flex;align-items:flex-start;gap:9px;padding:10px 11px;border:1px solid #cfd6e2;border-radius:9px;background:#fff;min-height:46px}.checkline input{width:auto;margin-top:4px;transform:scale(1.15)}.checkline span{font-weight:600}.checkline.disabled{opacity:.55;background:#f5f7fa}
 button{border:0;border-radius:9px;padding:10px 15px;background:var(--accent);color:#fff;font-weight:650;cursor:pointer;margin:4px 6px 4px 0}button:hover{background:var(--accent2)}button.secondary{background:#eef2f7;color:#26364d;border:1px solid #d0d7e2}button.secondary:hover{background:#dde5f0}button:disabled{opacity:.5;cursor:not-allowed}
@@ -20,6 +22,7 @@ button{border:0;border-radius:9px;padding:10px 15px;background:var(--accent);col
 .actions{display:flex;flex-wrap:wrap;align-items:center;margin-top:12px}.footer-note{color:var(--muted);font-size:13px;margin-top:10px}.preview{max-height:280px;overflow:auto}.tag{display:inline-block;padding:3px 8px;border-radius:999px;background:#eef4ff;color:#244b93;font-size:12px;margin-right:5px}
 .subsection{border:1px solid #dfe5ee;border-radius:12px;padding:16px;margin-top:14px;background:#fbfcfe}.subsection h3{margin:0 0 12px}.subsection.advanced{background:#f8f9fc;border-style:dashed}.section-label{display:inline-block;font-size:12px;font-weight:750;letter-spacing:.04em;color:#344054;background:#eaecf0;border-radius:999px;padding:3px 9px;margin-bottom:8px}.advanced-hint{color:var(--muted);margin:0 0 12px}.test-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.result-divider{border-top:1px solid #e4e7ec;margin:20px 0 0;padding-top:2px}.assumption-box{margin-top:9px;padding:10px 11px;border-radius:8px;background:#fff;border:1px solid #dfe5ee;color:#475467;font-size:13px}.assumption-box strong{color:#1d2939}.method-details{margin-top:9px;border:1px solid #cfd8e6;border-radius:8px;background:#fff}.method-details summary{cursor:pointer;padding:9px 11px;font-weight:700;color:#244b93}.method-details .method-body{padding:0 13px 11px;color:#344054;font-size:13px}.method-details ol{margin:5px 0 7px;padding-left:20px}.method-details li{margin-bottom:5px}.method-box{margin:12px 0 8px;padding:13px 15px;border:1px solid #cfd8e6;border-radius:10px;background:#f8fbff}.method-box h4{font-size:15px;margin:0 0 7px}.method-box ol,.method-box ul{margin:5px 0;padding-left:21px}.method-box li{margin-bottom:5px}.method-formula{font-family:Consolas,"Courier New",monospace;background:#fff;border:1px solid #d9e1ec;border-radius:7px;padding:8px 10px;margin:7px 0;overflow-wrap:anywhere}.criterion{font-weight:700;color:#344054}
 @media(max-width:850px){.grid,.grid.two,.test-grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.metrics{grid-template-columns:1fr}h1{font-size:24px}}
+@media (max-width:900px){.marker-grid{grid-template-columns:1fr}.marker-full,.marker-pair-title{grid-column:1}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
@@ -294,7 +297,104 @@ function analyzeMarker(y,rawScores,name,forcedDirection){
  return {name,rawScores,oriented,roc,ci};
 }
 
-const api={toNumber,rocPoints,confusion,aucCI,delongTest,logisticFit,mcnemar,stratifiedYoudenBootstrap,analyzeMarker,normalCdf,exactBinomialTwoSided};
+function logisticPredictOriginal(fit, cols){
+ if(!cols.length) return [];
+ const n=cols[0].length, out=new Array(n);
+ for(let i=0;i<n;i++){
+  let eta=fit.originalIntercept;
+  for(let j=0;j<cols.length;j++) eta+=fit.originalCoef[j]*cols[j][i];
+  out[i]=sigmoid(eta);
+ }
+ return out;
+}
+function fisherYates(a,rng){
+ const out=a.slice();
+ for(let i=out.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[out[i],out[j]]=[out[j],out[i]];}
+ return out;
+}
+function stratifiedKFolds(y,k,seed=1){
+ const pos=[],neg=[]; for(let i=0;i<y.length;i++) (y[i]===1?pos:neg).push(i);
+ if(pos.length<2||neg.length<2) throw new Error('Cross-validation requires at least 2 positive and 2 negative cases.');
+ k=Math.max(2,Math.min(Math.floor(Number(k)||5),pos.length,neg.length));
+ const rng=mulberry32(seed), p=fisherYates(pos,rng), n=fisherYates(neg,rng);
+ const folds=Array.from({length:k},()=>[]);
+ p.forEach((idx,i)=>folds[i%k].push(idx)); n.forEach((idx,i)=>folds[i%k].push(idx));
+ return {folds,k};
+}
+function enumerateSubsets(n,maxSize){
+ const out=[]; maxSize=Math.max(1,Math.min(n,Math.floor(Number(maxSize)||n)));
+ for(let mask=1;mask<(1<<n);mask++){
+  const idx=[]; for(let j=0;j<n;j++) if(mask&(1<<j)) idx.push(j);
+  if(idx.length<=maxSize) out.push(idx);
+ }
+ return out;
+}
+function modelLogLikelihood(y,prob){
+ const eps=1e-12; let ll=0;
+ for(let i=0;i<y.length;i++){const p=Math.max(eps,Math.min(1-eps,prob[i]));ll+=y[i]?Math.log(p):Math.log(1-p);}
+ return ll;
+}
+function bestSubsetSearch(y, allCols, markerNames, options={}){
+ const nMarkers=markerNames.length;
+ if(nMarkers<2) throw new Error('Best subset analysis requires at least two selected markers.');
+ const maxSize=Math.max(1,Math.min(nMarkers,Math.floor(Number(options.maxSize)||nMarkers)));
+ const criterion=options.criterion||'cv_auc';
+ const requestedFolds=Math.max(2,Math.min(10,Math.floor(Number(options.folds)||5)));
+ const seed=Number.isFinite(Number(options.seed))?Math.floor(Number(options.seed)):1;
+ const foldInfo=stratifiedKFolds(y,requestedFolds,seed), folds=foldInfo.folds, kfold=foldInfo.k;
+ const subsets=enumerateSubsets(nMarkers,maxSize), results=[];
+ for(const idxs of subsets){
+  const cols=idxs.map(j=>allCols[j]);
+  const fit=logisticFit(y,cols), prob=fit.probability;
+  const roc=rocPoints(y,prob,1), ci=aucCI(y,prob);
+  const ll=modelLogLikelihood(y,prob), kParams=idxs.length+1;
+  const aic=2*kParams-2*ll, bic=Math.log(y.length)*kParams-2*ll;
+  const cvProb=new Array(y.length).fill(NaN);
+  for(const testIdx of folds){
+   const testSet=new Set(testIdx), trainIdx=[];
+   for(let i=0;i<y.length;i++) if(!testSet.has(i)) trainIdx.push(i);
+   const yTrain=trainIdx.map(i=>y[i]);
+   const trainCols=idxs.map(j=>trainIdx.map(i=>allCols[j][i]));
+   const foldFit=logisticFit(yTrain,trainCols);
+   const testCols=idxs.map(j=>testIdx.map(i=>allCols[j][i]));
+   const pp=logisticPredictOriginal(foldFit,testCols);
+   testIdx.forEach((originalIndex,t)=>cvProb[originalIndex]=pp[t]);
+  }
+  if(cvProb.some(v=>!Number.isFinite(v))) throw new Error('Cross-validation could not generate predictions for all cases.');
+  const cvRoc=rocPoints(y,cvProb,1);
+  results.push({
+   idxs, names:idxs.map(j=>markerNames[j]), label:idxs.map(j=>markerNames[j]).join(' + '), markerCount:idxs.length,
+   fit, probability:prob, roc, ci, logLikelihood:ll, aic, bic,
+   cvProbability:cvProb, cvRoc, cvAuc:cvRoc.auc
+  });
+ }
+ function metric(r){
+  if(criterion==='cv_auc') return r.cvAuc;
+  if(criterion==='auc') return r.ci.auc;
+  if(criterion==='aic') return r.aic;
+  if(criterion==='bic') return r.bic;
+  if(criterion==='youden') return r.roc.best.youden;
+  if(criterion==='accuracy') return r.roc.confusion.accuracy;
+  return r.cvAuc;
+ }
+ const minimize=criterion==='aic'||criterion==='bic';
+ const ranked=results.slice().sort((a,b)=>{
+  const d=minimize?metric(a)-metric(b):metric(b)-metric(a);
+  if(Math.abs(d)>1e-12) return d;
+  if(a.markerCount!==b.markerCount) return a.markerCount-b.markerCount;
+  return a.label.localeCompare(b.label);
+ });
+ ranked.forEach((r,i)=>r.rank=i+1);
+ let recommended=ranked[0];
+ if(criterion==='cv_auc'){
+  const best=ranked[0].cvAuc;
+  const eligible=results.filter(r=>r.cvAuc>=best-0.01-1e-12).sort((a,b)=>a.markerCount-b.markerCount||b.cvAuc-a.cvAuc||a.bic-b.bic);
+  recommended=eligible[0];
+ }
+ return {criterion,maxSize,requestedFolds,foldsUsed:kfold,seed,results,ranked,recommended};
+}
+
+const api={toNumber,rocPoints,confusion,aucCI,delongTest,logisticFit,logisticPredictOriginal,mcnemar,stratifiedYoudenBootstrap,analyzeMarker,bestSubsetSearch,normalCdf,exactBinomialTwoSided};
 if(typeof module!=='undefined' && module.exports) module.exports=api;
 else global.ROCCore=api;
 })(typeof window!=='undefined'?window:globalThis);
@@ -302,10 +402,10 @@ else global.ROCCore=api;
 </script>
 </head>
 <body>
-<header><div class="wrap"><h1>ROC Analysis Tool</h1><p>Browser-based application | The positive outcome defaults to 0 and can be changed</p></div></header>
+<header><div class="wrap"><h1>ROC Analysis Tool</h1><p>Browser-based application | Analyze up to five markers; the positive outcome defaults to 0 and can be changed</p></div></header>
 <main>
 <section class="card">
- <div class="note"><strong>Local processing:</strong> All analyses run in your browser. Your data are not uploaded to a server. No Python installation is required.</div>
+ <div class="note"><strong>Local processing:</strong> All analyses run in your browser. Your data are not uploaded to a server, and no Python installation is required.</div>
  <div id="excelStatus" class="status"></div>
 </section>
 
@@ -325,24 +425,43 @@ else global.ROCCore=api;
  <div class="subsection">
  <div class="section-label">Basic Analysis</div>
  <h3>Basic ROC Analysis</h3>
- <p class="advanced-hint">Analyze one marker, two markers, and optionally a combined Marker 1 + Marker 2 model.</p>
+ <p class="advanced-hint">Analyze one to five markers. An optional logistic regression model can combine all selected markers.</p>
  <div class="grid">
  <div class="field"><label for="outcomeSelect">Outcome Column</label><select id="outcomeSelect"></select><small>The outcome must contain exactly two valid classes. Missing and invalid values are excluded.</small></div>
  <div class="field"><label for="positiveSelect">Positive Outcome Value</label><select id="positiveSelect"></select><small>The default is 0. Select another class when appropriate. For SPSS comparisons, this corresponds to the State Variable Value.</small></div>
  <div class="field"><label for="idSelect">Case ID (Optional)</label><select id="idSelect"><option value="">Use row number</option></select><small>Used in case-level prediction results.</small></div>
- <div class="field"><label for="marker1Select">Marker 1 (Required)</label><select id="marker1Select"></select></div>
- <div class="field"><label for="marker1Direction">Marker 1 | ROC Direction</label><select id="marker1Direction"><option value="auto" selected>Automatically select direction</option><option value="1">LARGE: Higher values indicate positive cases</option><option value="-1">SMALL: Lower values indicate positive cases</option></select><small>By default, the direction yielding AUC ≥ 0.5 is selected automatically. Choose LARGE or SMALL to match a prespecified test direction.</small></div>
- <div class="field"><label for="marker2Select">Marker 2 (Optional)</label><select id="marker2Select"><option value="">None | Analyze Marker 1 only</option></select><small>Selecting Marker 2 produces separate ROC curves for both markers.</small></div>
- <div class="field"><label for="marker2Direction">Marker 2 | ROC Direction</label><select id="marker2Direction" disabled><option value="auto" selected>Automatically select direction</option><option value="1">LARGE: Higher values indicate positive cases</option><option value="-1">SMALL: Lower values indicate positive cases</option></select><small>Disabled when Marker 2 is not selected. A higher combined-model probability indicates a higher probability of the positive outcome.</small></div>
- <div class="field"><label>Combined Model (Optional)</label><label id="combineWrap" class="checkline disabled"><input id="combineCheckbox" type="checkbox" disabled><span>Create a Marker 1 + Marker 2 logistic regression combined ROC</span></label><small>When unchecked, the two markers are analyzed separately without creating a combined ROC.</small></div>
  </div>
+
+ <div class="marker-grid">
+ <div class="marker-pair-title">Marker 1</div>
+ <div class="field"><label for="marker1Select">Marker 1 (Required)</label><select id="marker1Select"></select><small>At least one marker is required.</small></div>
+ <div class="field"><label for="marker1Direction">Marker 1 | ROC Direction</label><select id="marker1Direction"><option value="auto" selected>Automatically select direction</option><option value="1">LARGE: Higher values indicate positive cases</option><option value="-1">SMALL: Lower values indicate positive cases</option></select><small>By default, the direction yielding AUC ≥ 0.5 is selected automatically. Choose LARGE or SMALL to match a prespecified test direction.</small></div>
+
+ <div class="marker-pair-title">Marker 2</div>
+ <div class="field"><label for="marker2Select">Marker 2 (Optional)</label><select id="marker2Select"><option value="">None | Do not use Marker 2</option></select><small>Optional. If selected, this marker is analyzed on the same complete-case dataset as the other selected markers.</small></div>
+ <div class="field"><label for="marker2Direction">Marker 2 | ROC Direction</label><select id="marker2Direction" disabled><option value="auto" selected>Automatically select direction</option><option value="1">LARGE: Higher values indicate positive cases</option><option value="-1">SMALL: Lower values indicate positive cases</option></select><small>By default, the direction yielding AUC ≥ 0.5 is selected automatically. Choose LARGE or SMALL to match a prespecified test direction.</small></div>
+
+ <div class="marker-pair-title">Marker 3</div>
+ <div class="field"><label for="marker3Select">Marker 3 (Optional)</label><select id="marker3Select"><option value="">None | Do not use Marker 3</option></select><small>Optional. If selected, this marker is analyzed on the same complete-case dataset as the other selected markers.</small></div>
+ <div class="field"><label for="marker3Direction">Marker 3 | ROC Direction</label><select id="marker3Direction" disabled><option value="auto" selected>Automatically select direction</option><option value="1">LARGE: Higher values indicate positive cases</option><option value="-1">SMALL: Lower values indicate positive cases</option></select><small>By default, the direction yielding AUC ≥ 0.5 is selected automatically. Choose LARGE or SMALL to match a prespecified test direction.</small></div>
+
+ <div class="marker-pair-title">Marker 4</div>
+ <div class="field"><label for="marker4Select">Marker 4 (Optional)</label><select id="marker4Select"><option value="">None | Do not use Marker 4</option></select><small>Optional. If selected, this marker is analyzed on the same complete-case dataset as the other selected markers.</small></div>
+ <div class="field"><label for="marker4Direction">Marker 4 | ROC Direction</label><select id="marker4Direction" disabled><option value="auto" selected>Automatically select direction</option><option value="1">LARGE: Higher values indicate positive cases</option><option value="-1">SMALL: Lower values indicate positive cases</option></select><small>By default, the direction yielding AUC ≥ 0.5 is selected automatically. Choose LARGE or SMALL to match a prespecified test direction.</small></div>
+
+ <div class="marker-pair-title">Marker 5</div>
+ <div class="field"><label for="marker5Select">Marker 5 (Optional)</label><select id="marker5Select"><option value="">None | Do not use Marker 5</option></select><small>Optional. If selected, this marker is analyzed on the same complete-case dataset as the other selected markers.</small></div>
+ <div class="field"><label for="marker5Direction">Marker 5 | ROC Direction</label><select id="marker5Direction" disabled><option value="auto" selected>Automatically select direction</option><option value="1">LARGE: Higher values indicate positive cases</option><option value="-1">SMALL: Lower values indicate positive cases</option></select><small>By default, the direction yielding AUC ≥ 0.5 is selected automatically. Choose LARGE or SMALL to match a prespecified test direction.</small></div>
+
+ <div class="field marker-full"><label>Combined Model (Optional)</label><label id="combineWrap" class="checkline disabled"><input id="combineCheckbox" type="checkbox" disabled><span>Create a logistic regression combined ROC using all selected markers</span></label><small>Available when at least two markers are selected. The combined model uses every selected marker (2–5 markers).</small></div>
+ </div> </div>
  <div class="assumption-box" style="margin-top:12px"><strong>Event definition:</strong> The selected outcome value is treated as positive, and the other binary class is treated as negative. Sensitivity is the proportion of positive cases correctly identified; specificity is the proportion of negative cases correctly identified. To compare with SPSS, use the same positive outcome value and ROC direction.</div>
  </div>
 
  <div class="subsection advanced">
  <div class="section-label">Optional</div>
  <h3>Advanced Performance Comparisons</h3>
- <p class="advanced-hint">All comparison tests are disabled by default. Enable only the tests required to compare two or three ROC models. Tests may be run separately or together.</p>
+ <p class="advanced-hint">All comparison tests are disabled by default. Enable only the tests required to compare two or more ROC models. With five markers plus a combined model, up to 15 pairwise comparisons may be produced. Tests may be run separately or together.</p>
  <div class="test-grid">
  <div class="field">
  <label>Compare Youden Index</label><label id="youdenCompareWrap" class="checkline disabled"><input id="youdenCompareCheckbox" type="checkbox" disabled><span>Paired Stratified Bootstrap</span></label>
@@ -362,19 +481,33 @@ else global.ROCCore=api;
  <label>Compare AUC</label><label id="delongCompareWrap" class="checkline disabled"><input id="delongCompareCheckbox" type="checkbox" disabled><span>DeLong’s test</span></label>
  <small>Compares the AUCs of paired ROC curves.</small>
  <div class="assumption-box"><strong>Assumptions:</strong> ROC curves must be based on the same cases and the same binary outcome. Every case must have continuous or ordinal scores for both models. DeLong’s test compares overall AUC, not cutoff, sensitivity, specificity, or accuracy.</div>
- <details class="method-details"><summary>View the DeLong comparison method</summary><div class="method-body">The covariance between paired model scores is used to estimate the standard error of the AUC difference, followed by calculation of the Z statistic and two-sided P value. If a combined model is developed and evaluated in the same dataset, its apparent performance may be optimistic.</div></details>
+ <details class="method-details"><summary>View the DeLong comparison method</summary><div class="method-body">The covariance of paired model scores is used to estimate the standard error of the AUC difference, followed by a Z statistic and two-sided P value. If a combined model is developed and evaluated in the same dataset, its apparent performance may be optimistic.</div></details>
  </div>
  <div class="field">
  <label>Compare Accuracy</label><label id="mcnemarCompareWrap" class="checkline disabled"><input id="mcnemarCompareCheckbox" type="checkbox" disabled><span>McNemar’s test</span></label>
  <small>Compares classification accuracy in the same cases.</small>
- <div class="assumption-box"><strong>Assumptions:</strong> Both models must produce binary classifications for the same cases using the same reference outcome. Each model is classified using its own maximum-Youden cutoff; therefore, the McNemar result applies to those cutoffs.</div>
- <details class="method-details"><summary>View the McNemar comparison method</summary><div class="method-body">The test uses only discordant cases: Model 1 correct/Model 2 incorrect and Model 1 incorrect/Model 2 correct. The primary result is a two-sided exact McNemar test; a continuity-corrected P value is also reported.</div></details>
+ <div class="assumption-box"><strong>Assumptions:</strong> Both models must produce binary classifications for the same cases using the same reference outcome. Each model uses its own maximum-Youden cutoff, so the McNemar result applies to those cutoffs.</div>
+ <details class="method-details"><summary>View the McNemar comparison method</summary><div class="method-body">The test uses only discordant cases: Model 1 correct / Model 2 incorrect and Model 1 incorrect / Model 2 correct. The primary result is a two-sided exact McNemar test, with a continuity-corrected P value also reported.</div></details>
  </div>
  </div>
  <div id="youdenSettings" class="grid two hidden" style="margin-top:12px">
  <div class="field"><label for="bootstrapInput">Youden Bootstrap Iterations</label><input id="bootstrapInput" type="number" min="100" max="50000" step="100" value="5000"><small>Default: 5,000 iterations.</small></div>
- <div class="field"><label for="seedInput">Random seed</label><input id="seedInput" type="number" step="1" value="1"><small>The same seed reproduces results under the same tool version and data order.</small></div>
+ <div class="field"><label for="seedInput">Random Seed</label><input id="seedInput" type="number" step="1" value="1"><small>The same seed reproduces results under the same tool version and data order.</small></div>
  </div>
+ </div>
+
+ <div class="subsection advanced">
+ <div class="section-label">Optional</div>
+ <h3>Best Subset Analysis</h3>
+ <p class="advanced-hint">Search all marker subsets from the markers selected above. Each subset is fitted as a logistic regression model. This analysis is independent of the pairwise ROC comparison tests.</p>
+ <div class="grid">
+  <div class="field"><label>Enable Best Subset Search</label><label id="subsetSearchWrap" class="checkline disabled"><input id="subsetSearchCheckbox" type="checkbox" disabled><span>Evaluate all eligible marker subsets</span></label><small>Available when at least two markers are selected.</small></div>
+  <div class="field"><label for="subsetCriterion">Selection Criterion</label><select id="subsetCriterion" disabled><option value="cv_auc" selected>Cross-validated AUC (recommended)</option><option value="auc">Apparent AUC</option><option value="aic">AIC</option><option value="bic">BIC</option><option value="youden">Apparent Youden index</option><option value="accuracy">Apparent Accuracy</option></select><small>Cross-validated AUC is preferred when the goal is predictive performance.</small></div>
+  <div class="field"><label for="subsetMaxSize">Maximum Number of Markers</label><select id="subsetMaxSize" disabled></select><small>Limits the largest subset considered.</small></div>
+  <div class="field"><label for="subsetFolds">Stratified Cross-Validation Folds</label><input id="subsetFolds" type="number" min="2" max="10" step="1" value="5" disabled><small>The fold count is automatically reduced when a class contains fewer cases.</small></div>
+  <div class="field"><label for="subsetSeed">Cross-Validation Random Seed</label><input id="subsetSeed" type="number" step="1" value="1" disabled><small>Controls the stratified fold assignment.</small></div>
+ </div>
+ <div class="assumption-box"><strong>Method:</strong> All selected markers must be available in the same complete cases. Every non-empty subset up to the selected maximum size is fitted by logistic regression. Cross-validated AUC uses out-of-fold predicted probabilities from stratified K-fold cross-validation. AIC and BIC are calculated from the apparent full-data model. When Cross-validated AUC is the selection criterion, the recommended subset favors the smallest model within 0.01 AUC of the highest cross-validated AUC.</div>
  </div>
 
  <div class="actions"><button id="analyzeBtn">Run Analysis</button><button id="resetBtn" class="secondary">Clear Results</button></div>
@@ -391,7 +524,7 @@ else global.ROCCore=api;
  <div class="table-wrap"><table id="statsTable"></table></div>
  <p class="footer-note">Sensitivity is the true-positive rate; specificity is the true-negative rate. Each model uses its own maximum-Youden cutoff. Cutoffs are midpoints between adjacent observed values; if several cutoffs share the maximum Youden index, their median is used.</p>
 
- <div id="logisticSection" class="hidden"><h3>Two-Marker Logistic Regression Combined Model</h3><div id="formulaBox" class="formula"></div><p class="footer-note">The combined cutoff is a predicted-probability cutoff. Because the model is developed and evaluated in the same dataset, this is apparent performance.</p></div>
+ <div id="logisticSection" class="hidden"><h3>Multi-Marker Logistic Regression Combined Model</h3><div id="formulaBox" class="formula"></div><p class="footer-note">The combined cutoff is a predicted-probability cutoff. Because the model is developed and evaluated in the same dataset, this is apparent performance.</p></div>
 
  <h3>Export Results</h3><div class="actions"><button id="downloadExcelBtn">Download Complete Excel Results</button><button id="downloadCsvBtn" class="secondary">Download Summary Table (CSV)</button></div>
 </section>
@@ -407,7 +540,7 @@ else global.ROCCore=api;
  <li>Fix the original ROC direction and re-optimize the cutoff and maximum Youden index in every resample.</li>
  <li>Calculate ΔJ* in each iteration, use percentile limits for the 95% CI, and test the two-sided null hypothesis of zero difference.</li>
  </ol><div class="method-formula">J = Sensitivity + Specificity − 1<br>ΔJ* = J₁* − J₂*<br>P = 2 × min[P(ΔJ* ≤ 0), P(ΔJ* ≥ 0)]</div><p id="youdenNote" class="footer-note"></p></div>
- <div class="assumption-box"><strong>Interpretation requirements:</strong> The analysis compares the re-optimized maximum Youden index in each bootstrap sample, not the Youden index at a fixed cutoff. A random seed ensures reproducibility only under the same tool version and data order.</div>
+ <div class="assumption-box"><strong>Interpretation requirements:</strong>This analysis compares the re-optimized maximum Youden index in each bootstrap sample, not the Youden index at a fixed cutoff. A random seed ensures reproducibility only under the same tool version and data order.</div>
  </div>
  <div id="delongComparisonSection" class="hidden">
  <h3>DeLong’s Test: AUC Comparison</h3><div class="table-wrap"><table id="delongTable"></table></div>
@@ -417,6 +550,16 @@ else global.ROCCore=api;
  <h3>McNemar’s Test: Accuracy Comparison</h3><div class="table-wrap"><table id="mcnemarTable"></table></div>
  <div class="assumption-box"><strong>Interpretation requirements:</strong> Both models must provide binary classifications for the same cases. Each model uses its own maximum-Youden cutoff. The primary result is the two-sided exact test, with the continuity-corrected P value reported as a supplement.<span id="mcnemarNote"></span></div>
  </div>
+</section>
+
+<section id="subsetResultsCard" class="card hidden">
+ <h2>5. Best Subset Analysis Results</h2>
+ <div id="subsetRecommendation" class="note success"></div>
+ <div id="subsetSummary" class="metrics"></div>
+ <h3>Subset Ranking</h3>
+ <div class="table-wrap"><table id="subsetTable"></table></div>
+ <div class="method-box"><h4>How the Recommended Subset Is Selected</h4><p id="subsetMethodNote" class="footer-note"></p></div>
+ <div id="subsetFormulaSection" class="hidden"><h3>Recommended Logistic Regression Model</h3><div id="subsetFormulaBox" class="formula"></div></div>
 </section>
 </main>
 
@@ -466,7 +609,7 @@ $('fileInput').addEventListener('change',async e=>{
  rows=parseCSV(await file.text()); workbook=null; currentSheet=file.name;
  $('sheetSelect').innerHTML='<option>CSV</option>'; $('sheetSelect').disabled=true; afterRowsLoaded();
  }else{
- if(!excelReady())throw new Error('The Excel component has not loaded. Reopen the page with an internet connection or save the data as CSV.');
+ if(!excelReady())throw new Error('The Excel component has not loaded. Reopen the page with an internet connection, or save the data as CSV.');
  const data=await file.arrayBuffer(); workbook=XLSX.read(data,{type:'array'});
  $('sheetSelect').innerHTML=workbook.SheetNames.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join(''); $('sheetSelect').disabled=false;
  loadSheet(workbook.SheetNames[0]);
@@ -487,14 +630,17 @@ function populateSelectors(){
  const allOpts=columns.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
  $('outcomeSelect').innerHTML=allOpts; $('idSelect').innerHTML='<option value="">Use row number</option>'+allOpts;
  const nums=numericColumns();
- $('marker1Select').innerHTML=nums.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
- $('marker2Select').innerHTML='<option value="">None | Analyze Marker 1 only</option>'+nums.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+ for(let i=1;i<=5;i++){
+ const sel=$(`marker${i}Select`);
+ sel.innerHTML=(i===1?'':`<option value="">None | Do not use Marker ${i}</option>`)+nums.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+ $(`marker${i}Direction`).value='auto';
+ }
  const likelyOutcome=columns.find(c=>/response|outcome|status|group|label/i.test(c))||columns[0];
  $('outcomeSelect').value=likelyOutcome; updatePositiveValues();
  const id=columns.find(c=>/^id$|patient.?id|case.?id|sample.?id/i.test(c)); if(id)$('idSelect').value=id;
  const markerChoices=nums.filter(c=>c!==likelyOutcome&&c!==id); if(markerChoices[0])$('marker1Select').value=markerChoices[0];
- $('marker1Direction').value='auto'; $('marker2Direction').value='auto';
- updateCombineControl();
+ for(let i=2;i<=5;i++) $(`marker${i}Select`).value='';
+ updateMarkerControls();
 }
 function refreshPositiveOptionLabels(){
  const select=$('positiveSelect');
@@ -526,34 +672,60 @@ function updatePositiveValues(){
 }
 $('outcomeSelect').addEventListener('change',()=>{updatePositiveValues(); clearResults();});
 $('positiveSelect').addEventListener('change',()=>{refreshPositiveOptionLabels();clearResults();});
-$('marker1Select').addEventListener('change',clearResults);
-$('marker1Direction').addEventListener('change',clearResults);
-$('marker2Select').addEventListener('change',()=>{updateCombineControl();clearResults();});
-$('marker2Direction').addEventListener('change',clearResults);
+for(let i=1;i<=5;i++){
+ $(`marker${i}Select`).addEventListener('change',()=>{updateMarkerControls();clearResults();});
+ $(`marker${i}Direction`).addEventListener('change',clearResults);
+}
 $('combineCheckbox').addEventListener('change',clearResults);
 $('youdenCompareCheckbox').addEventListener('change',()=>{updateYoudenControls();clearResults();});
 $('delongCompareCheckbox').addEventListener('change',clearResults);
 $('mcnemarCompareCheckbox').addEventListener('change',clearResults);
 $('bootstrapInput').addEventListener('change',clearResults); $('seedInput').addEventListener('change',clearResults);
-function updateCombineControl(){
- const enabled=!!$('marker2Select').value;
+$('subsetSearchCheckbox').addEventListener('change',()=>{updateSubsetControls();clearResults();});
+$('subsetCriterion').addEventListener('change',clearResults);
+$('subsetMaxSize').addEventListener('change',clearResults);
+$('subsetFolds').addEventListener('change',clearResults);
+$('subsetSeed').addEventListener('change',clearResults);
+function getSelectedMarkerConfigs(){
+ const configs=[];
+ for(let i=1;i<=5;i++){
+ const name=$(`marker${i}Select`).value;
+ if(name) configs.push({slot:i,name,direction:selectedDirection(`marker${i}Direction`)});
+ }
+ return configs;
+}
+function updateMarkerControls(){
+ for(let i=2;i<=5;i++) $(`marker${i}Direction`).disabled=!$(`marker${i}Select`).value;
+ const count=getSelectedMarkerConfigs().length;
+ const enabled=count>=2;
  $('combineCheckbox').disabled=!enabled;
  $('combineWrap').classList.toggle('disabled',!enabled);
- $('marker2Direction').disabled=!enabled;
  for(const [checkboxId,wrapId] of [['youdenCompareCheckbox','youdenCompareWrap'],['delongCompareCheckbox','delongCompareWrap'],['mcnemarCompareCheckbox','mcnemarCompareWrap']]){
  $(checkboxId).disabled=!enabled;
  $(wrapId).classList.toggle('disabled',!enabled);
  if(!enabled) $(checkboxId).checked=false;
  }
  if(!enabled)$('combineCheckbox').checked=false;
+ const subsetEnabled=count>=2;
+ $('subsetSearchCheckbox').disabled=!subsetEnabled;
+ $('subsetSearchWrap').classList.toggle('disabled',!subsetEnabled);
+ if(!subsetEnabled)$('subsetSearchCheckbox').checked=false;
+ const prevMax=Number($('subsetMaxSize').value)||count;
+ $('subsetMaxSize').innerHTML=Array.from({length:count},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
+ $('subsetMaxSize').value=String(Math.min(count,Math.max(1,prevMax||count)));
  updateYoudenControls();
+ updateSubsetControls();
+}
+function updateSubsetControls(){
+ const on=getSelectedMarkerConfigs().length>=2&&$('subsetSearchCheckbox').checked;
+ for(const id of ['subsetCriterion','subsetMaxSize','subsetFolds','subsetSeed']) $(id).disabled=!on;
 }
 function updateYoudenControls(){
- const visible=!!($('marker2Select').value&&$('youdenCompareCheckbox').checked);
+ const visible=!!(getSelectedMarkerConfigs().length>=2&&$('youdenCompareCheckbox').checked);
  $('youdenSettings').classList.toggle('hidden',!visible);
 }
 $('resetBtn').addEventListener('click',clearResults);
-function clearResults(){$('resultsCard').classList.add('hidden');$('advancedResultsCard').classList.add('hidden');$('analysisMessage').innerHTML='';lastResult=null;}
+function clearResults(){$('resultsCard').classList.add('hidden');$('advancedResultsCard').classList.add('hidden');$('subsetResultsCard').classList.add('hidden');$('analysisMessage').innerHTML='';lastResult=null;}
 
 $('analyzeBtn').addEventListener('click',async()=>{
  const btn=$('analyzeBtn'),oldText=btn.textContent;
@@ -562,15 +734,17 @@ $('analyzeBtn').addEventListener('click',async()=>{
  if($('youdenCompareCheckbox').checked)selectedTests.push('Youden bootstrap');
  if($('delongCompareCheckbox').checked)selectedTests.push('DeLong');
  if($('mcnemarCompareCheckbox').checked)selectedTests.push('McNemar');
- $('analysisMessage').innerHTML=selectedTests.length
- ?`<div class="note">Calculating basic ROC analysis and advanced comparisons: ${selectedTests.join(', ')}.</div>`
- :'<div class="note">Calculating basic ROC analysis.</div>';
+ const subsetRequested=$('subsetSearchCheckbox').checked;
+ const tasks=selectedTests.slice(); if(subsetRequested)tasks.push('Best subset search');
+ $('analysisMessage').innerHTML=tasks.length
+ ?`<div class="note">Running basic ROC analysis and optional analyses: ${tasks.join(', ')}.</div>`
+ :'<div class="note">Running basic ROC analysis.</div>';
  await new Promise(resolve=>setTimeout(resolve,30));
  try{runAnalysis();}catch(err){$('analysisMessage').innerHTML=`<div class="note error"><strong>Analysis failed:</strong> ${esc(err.message||err)}</div>`; $('resultsCard').classList.add('hidden');}
  finally{btn.disabled=false;btn.textContent=oldText;}
 });
 function selectedDirection(id){const v=$(id).value;return v==='auto'?undefined:Number(v);}
-function directionLabel(v){return v===1?'LARGE (higher values indicate positive)':v===-1?'SMALL (lower values indicate positive)':'AUTO (select direction yielding AUC ≥ 0.5)';}
+function directionLabel(v){return v===1?'LARGE (higher values indicate positive cases)':v===-1?'SMALL (lower values indicate positive cases)':'AUTO (automatically select the direction yielding AUC ≥ 0.5)';}
 function usedDirectionLabel(model){return model.roc.direction===1?'LARGE (≥ cutoff classified as positive)':'SMALL (≤ cutoff classified as positive)';}
 function rawClass(pred,positive,negative){return pred===1?positive:negative;}
 function groupLabelFromPrediction(pred){return pred===1?'Positive':'Negative';}
@@ -578,32 +752,42 @@ function runAnalysis(){
  const outcome=$('outcomeSelect').value, positive=String($('positiveSelect').value).trim(), idcol=$('idSelect').value;
  const outcomeLevels=[]; const seenLevels=new Set();
  for(const v of uniqueValues(outcome)){const key=String(v).trim(); if(key!==''&&!seenLevels.has(key)){seenLevels.add(key);outcomeLevels.push(key);}}
- if(outcomeLevels.length!==2)throw new Error(`The outcome must contain exactly two valid classes; detected ${outcomeLevels.length} classes.`);
+ if(outcomeLevels.length!==2)throw new Error(`The outcome must contain exactly two valid classes; currently detected ${outcomeLevels.length} classes.`);
  if(!outcomeLevels.includes(positive))throw new Error('Select a valid positive outcome value.');
  const negative=outcomeLevels.find(v=>v!==positive);
- const m1=$('marker1Select').value, m2=$('marker2Select').value;
- const dir1=selectedDirection('marker1Direction'), dir2=m2?selectedDirection('marker2Direction'):undefined;
- const combine=!!(m2&&$('combineCheckbox').checked);
- const youdenCompare=!!(m2&&$('youdenCompareCheckbox').checked);
- const delongCompare=!!(m2&&$('delongCompareCheckbox').checked);
- const mcnemarCompare=!!(m2&&$('mcnemarCompareCheckbox').checked);
+ const markerConfigs=getSelectedMarkerConfigs();
+ if(!markerConfigs.length||markerConfigs[0].slot!==1)throw new Error('Select Marker 1.');
+ const names=markerConfigs.map(x=>x.name), uniqueNames=new Set(names);
+ if(uniqueNames.size!==names.length)throw new Error('Each selected marker must be unique. Remove duplicate markers.');
+ const combine=!!(markerConfigs.length>=2&&$('combineCheckbox').checked);
+ const youdenCompare=!!(markerConfigs.length>=2&&$('youdenCompareCheckbox').checked);
+ const delongCompare=!!(markerConfigs.length>=2&&$('delongCompareCheckbox').checked);
+ const mcnemarCompare=!!(markerConfigs.length>=2&&$('mcnemarCompareCheckbox').checked);
+ const subsetSearch=!!(markerConfigs.length>=2&&$('subsetSearchCheckbox').checked);
+ const subsetCriterion=$('subsetCriterion').value||'cv_auc';
+ const subsetMaxSize=Math.max(1,Math.min(markerConfigs.length,Math.floor(Number($('subsetMaxSize').value)||markerConfigs.length)));
+ const subsetFolds=Math.max(2,Math.min(10,Math.floor(Number($('subsetFolds').value)||5)));
+ const subsetSeedValue=Number($('subsetSeed').value), subsetSeed=Number.isFinite(subsetSeedValue)?Math.floor(subsetSeedValue):1;
  const bootstrapB=Math.max(100,Math.min(50000,Math.floor(Number($('bootstrapInput').value)||5000)));
  const seedValue=Number($('seedInput').value);
  const seed=Number.isFinite(seedValue)?Math.floor(seedValue):1;
- if(!m1)throw new Error('Select Marker 1.'); if(m2&&m1===m2)throw new Error('Marker 1 and Marker 2 must be different.');
  const usable=[];
  for(let i=0;i<rows.length;i++){
- const r=rows[i], ov=r[outcome], ovKey=ov===null||ov===undefined?'':String(ov).trim(), a=ROCCore.toNumber(r[m1]), b=m2?ROCCore.toNumber(r[m2]):null;
- if((ovKey!==positive&&ovKey!==negative)||!Number.isFinite(a)||(m2&&!Number.isFinite(b)))continue;
- usable.push({row:r,index:i+2,id:idcol?(r[idcol]??`Row ${i+2}`):`Row ${i+2}`,actualRaw:ov,actualKey:ovKey,y:ovKey===positive?1:0,a,b});
+ const r=rows[i], ov=r[outcome], ovKey=ov===null||ov===undefined?'':String(ov).trim();
+ const values=markerConfigs.map(mc=>ROCCore.toNumber(r[mc.name]));
+ if((ovKey!==positive&&ovKey!==negative)||values.some(v=>!Number.isFinite(v)))continue;
+ usable.push({row:r,index:i+2,id:idcol?(r[idcol]??`Row ${i+2}`):`Row ${i+2}`,actualRaw:ov,actualKey:ovKey,y:ovKey===positive?1:0,values});
  }
- if(usable.length<4)throw new Error('Insufficient valid data. At least four cases are required.');
+ if(usable.length<4)throw new Error('Insufficient valid data; at least 4 complete cases are required.');
  const y=usable.map(x=>x.y), pos=y.reduce((s,v)=>s+v,0), neg=y.length-pos;
- if(pos<2||neg<2)throw new Error('At least two positive and two negative cases are required.');
- const A=ROCCore.analyzeMarker(y,usable.map(x=>x.a),m1,dir1); const models=[A]; let fit=null,B=null,C=null;
- if(m2){
- B=ROCCore.analyzeMarker(y,usable.map(x=>x.b),m2,dir2); models.push(B);
- if(combine){fit=ROCCore.logisticFit(y,[usable.map(x=>x.a),usable.map(x=>x.b)]); C=ROCCore.analyzeMarker(y,fit.probability,`${m1} + ${m2}`,1); models.push(C);}
+ if(pos<2||neg<2)throw new Error('At least 2 positive and 2 negative cases are required.');
+ const markerModels=markerConfigs.map((mc,j)=>ROCCore.analyzeMarker(y,usable.map(x=>x.values[j]),mc.name,mc.direction));
+ const models=markerModels.slice(); let fit=null,combinedModel=null;
+ if(combine){
+ const cols=markerConfigs.map((mc,j)=>usable.map(x=>x.values[j]));
+ fit=ROCCore.logisticFit(y,cols);
+ combinedModel=ROCCore.analyzeMarker(y,fit.probability,`Combined (${markerConfigs.length} markers)`,1);
+ models.push(combinedModel);
  }
  const youdenBootstrap=(models.length>1&&youdenCompare)?ROCCore.stratifiedYoudenBootstrap(y,models,bootstrapB,seed):[];
  const comparisons=[];
@@ -618,31 +802,39 @@ function runAnalysis(){
  });
  }
  }
+ const subset= subsetSearch ? ROCCore.bestSubsetSearch(y,markerConfigs.map((mc,j)=>usable.map(x=>x.values[j])),markerConfigs.map(mc=>mc.name),{criterion:subsetCriterion,maxSize:subsetMaxSize,folds:subsetFolds,seed:subsetSeed}) : null;
  const predictions=usable.map((u,i)=>{
- const aPred=A.roc.predicted[i], o={ID:u.id,'Observed Outcome':u.actualRaw,'Observed Class':u.y===1?'Positive':'Negative',m1:u.a,[`${m1}_Predicted Outcome`]:rawClass(aPred,positive,negative),[`${m1}_Predicted Class`]:groupLabelFromPrediction(aPred),[`${m1}_Correct`]:aPred===u.y?'Correct':'Incorrect'};
- if(m2){
- const bPred=B.roc.predicted[i];
- o[m2]=u.b;o[`${m2}_Predicted Outcome`]=rawClass(bPred,positive,negative);o[`${m2}_Predicted Class`]=groupLabelFromPrediction(bPred);o[`${m2}_Correct`]=bPred===u.y?'Correct':'Incorrect';
- if(combine){const cPred=C.roc.predicted[i];o['Combined_Positive Probability']=fit.probability[i];o['Combined_Predicted Outcome']=rawClass(cPred,positive,negative);o['Combined_Predicted Class']=groupLabelFromPrediction(cPred);o['Combined_Correct']=cPred===u.y?'Correct':'Incorrect';}
- }
+ const o={ID:u.id,'Observed Outcome':u.actualRaw,'Observed Class':u.y===1?'Positive':'Negative'};
+ markerConfigs.forEach((mc,j)=>{
+ const pred=markerModels[j].roc.predicted[i];
+ o[mc.name]=u.values[j];
+ o[`${mc.name}_Predicted Outcome`]=rawClass(pred,positive,negative);
+ o[`${mc.name}_Predicted Class`]=groupLabelFromPrediction(pred);
+ o[`${mc.name}_Correct`]=pred===u.y?'Correct':'Incorrect';
+ });
+ if(combine){const pred=combinedModel.roc.predicted[i];o['Combined Model_Positive Probability']=fit.probability[i];o['Combined_Predicted Outcome']=rawClass(pred,positive,negative);o['Combined_Predicted Class']=groupLabelFromPrediction(pred);o['Combined Model_Correct']=pred===u.y?'Correct':'Incorrect';}
  return o;
  });
- lastResult={outcome,positive,negative,m1,m2,dir1,dir2,combine,youdenCompare,delongCompare,mcnemarCompare,bootstrapB,seed,usable,y,pos,neg,models,A,B,C,fit,comparisons,predictions};
- renderResults(lastResult); $('analysisMessage').innerHTML=`<div class="note success">Analysis complete. Included ${usable.length} cases: Positive (${esc(positive)}): ${pos}; Negative (${esc(negative)}): ${neg}. Excluded ${rows.length-usable.length} rows because of missing values, nonbinary outcomes, or nonnumeric marker data.</div>`;
+ lastResult={outcome,positive,negative,markerConfigs,markerModels,combine,youdenCompare,delongCompare,mcnemarCompare,subsetSearch,subsetCriterion,subsetMaxSize,subsetFolds,subsetSeed,subset,bootstrapB,seed,usable,y,pos,neg,models,combinedModel,fit,comparisons,predictions};
+ renderResults(lastResult); $('analysisMessage').innerHTML=`<div class="note success">Analysis complete. Included ${usable.length} complete cases: positive (${esc(positive)}): ${pos}; negative (${esc(negative)}): ${neg}. Excluded ${rows.length-usable.length} rows because of missing values, a non-binary outcome, or nonnumeric data in one or more selected markers.</div>`;
 }
 
 function renderResults(r){
- $('caseSummary').innerHTML=[['Included Cases',r.usable.length],['Positive Cases',r.pos],['Negative Cases',r.neg],['Positive Outcome Value',r.positive],['Negative Outcome Value',r.negative],['Marker 1 Direction Used',usedDirectionLabel(r.A)],...(r.m2?[['Marker 2 Direction Used',usedDirectionLabel(r.B)]]:[]),['Analysis Mode',!r.m2?'Single Marker':(r.combine?'Two Markers + Combined Model':'Two Markers (No Combined Model)')]].map(x=>`<div class="metric"><div class="k">${x[0]}</div><div class="v">${esc(x[1])}</div></div>`).join('');
+ const directionMetrics=r.markerConfigs.map((mc,i)=>[`Marker ${mc.slot} Direction Used`,usedDirectionLabel(r.markerModels[i])]);
+ const mode=r.markerConfigs.length===1?'Single Marker':`${r.markerConfigs.length} Markers${r.combine?' + Combined Model':' (no combined model)'}`;
+ $('caseSummary').innerHTML=[['Included Cases',r.usable.length],['Positive Cases',r.pos],['Negative Cases',r.neg],['Positive Outcome Value',r.positive],['Negative Outcome Value',r.negative],...directionMetrics,['Analysis Mode',mode]].map(x=>`<div class="metric"><div class="k">${x[0]}</div><div class="v">${esc(x[1])}</div></div>`).join('');
  $('plotBox').innerHTML=makeROCsvg(r.models);
- const head=['Model','AUC','95% CI','Classification Direction','Cutoff','Youden index','Sensitivity (Positive)','Specificity (Negative)','Accuracy','PPV (Predicted Positive)','NPV (Predicted Negative)','TP (Positive Correct)','TN (Negative Correct)','FP (Negative Classified Positive)','FN (Positive Classified Negative)'];
+ const head=['Model','AUC','95% CI','Classification Direction','Cutoff','Youden index','Sensitivity (Positive)','Specificity (Negative)','Accuracy','PPV (Predicted Positive)','NPV (Predicted Negative)','TP (Positive Correct)','TN (Negative Correct)','FP (Negative Misclassified Positive)','FN (Positive Misclassified Negative)'];
  $('statsTable').innerHTML='<thead><tr>'+head.map(x=>`<th>${x}</th>`).join('')+'</tr></thead><tbody>'+r.models.map(m=>{
  const c=m.roc.confusion,b=m.roc.best; return `<tr><td class="left">${esc(m.name)}</td><td>${fmt(m.ci.auc)}</td><td>${fmt(m.ci.lower)}–${fmt(m.ci.upper)}</td><td>${esc(m.roc.direction===1?'LARGE: ≥ cutoff':'SMALL: ≤ cutoff')}</td><td>${fmt(b.cutoff,5)}</td><td>${fmt(b.youden)}</td><td>${pct(c.sensitivity)}</td><td>${pct(c.specificity)}</td><td>${pct(c.accuracy)}</td><td>${pct(c.ppv)}</td><td>${pct(c.npv)}</td><td>${c.tp}</td><td>${c.tn}</td><td>${c.fp}</td><td>${c.fn}</td></tr>`;
  }).join('')+'</tbody>';
  if(r.combine){
  $('logisticSection').classList.remove('hidden'); const f=r.fit;
- $('formulaBox').innerHTML=`logit[P(Positive)] = ${fmt(f.originalIntercept,6)} ${signed(f.originalCoef[0])} × ${esc(r.m1)} ${signed(f.originalCoef[1])} × ${esc(r.m2)}<br>P(Positive) = 1 / [1 + exp(−logit(P))]`;
+ const terms=f.originalCoef.map((coef,i)=>`${signed(coef)} × ${esc(r.markerConfigs[i].name)}`).join(' ');
+ $('formulaBox').innerHTML=`logit[P(Positive)] = ${fmt(f.originalIntercept,6)} ${terms}<br>P(Positive) = 1 / [1 + exp(−logit(P))]`;
  }else{$('logisticSection').classList.add('hidden');}
  if(r.models.length>1&&(r.youdenCompare||r.delongCompare||r.mcnemarCompare)){renderComparisons(r);$('advancedResultsCard').classList.remove('hidden');}else{$('advancedResultsCard').classList.add('hidden');}
+ if(r.subsetSearch&&r.subset){renderSubsetResults(r);$('subsetResultsCard').classList.remove('hidden');}else{$('subsetResultsCard').classList.add('hidden');}
  $('downloadExcelBtn').disabled=!excelReady(); $('resultsCard').classList.remove('hidden'); $('resultsCard').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
@@ -650,7 +842,7 @@ function signed(x){return x>=0?`+ ${fmt(x,6)}`:`− ${fmt(Math.abs(x),6)}`;}
 function renderComparisons(r){
  if(r.youdenCompare){
  $('youdenComparisonSection').classList.remove('hidden');
- const yh=['Comparison','Youden 1','Youden 2','Difference (1−2)','Bootstrap 95% CI','P value','Conclusion'];
+ const yh=['Comparison','Youden 1','Youden 2','Difference (1−2)','Bootstrap 95% CI','P Value','Conclusion'];
  $('youdenTable').innerHTML='<thead><tr>'+yh.map(x=>`<th>${x}</th>`).join('')+'</tr></thead><tbody>'+r.comparisons.map(c=>{
  const d=c.youden, conclusion=d.p<.05?(d.youden1>d.youden2?c.a.name:c.b.name):'No significant difference';
  return `<tr><td class="left">${esc(c.a.name)} vs ${esc(c.b.name)}</td><td>${fmt(d.youden1)}</td><td>${fmt(d.youden2)}</td><td>${fmt(d.difference)}</td><td>[${fmt(d.ciLow)}, ${fmt(d.ciHigh)}]</td><td class="${d.p<.05?'p-sig':''}">${pFmt(d.p)}</td><td>${esc(conclusion)}</td></tr>`;
@@ -661,7 +853,7 @@ function renderComparisons(r){
  }
  if(r.delongCompare){
  $('delongComparisonSection').classList.remove('hidden');
- const dh=['Comparison','AUC 1','AUC 2','AUC Difference','Z','P value','Conclusion'];
+ const dh=['Comparison','AUC 1','AUC 2','AUC Difference','Z','P Value','Conclusion'];
  $('delongTable').innerHTML='<thead><tr>'+dh.map(x=>`<th>${x}</th>`).join('')+'</tr></thead><tbody>'+r.comparisons.map(c=>{
  const d=c.delong, conclusion=d.p<.05?(d.auc1>d.auc2?c.a.name:c.b.name):'No significant difference';
  return `<tr><td class="left">${esc(c.a.name)} vs ${esc(c.b.name)}</td><td>${fmt(d.auc1)}</td><td>${fmt(d.auc2)}</td><td>${fmt(d.difference)}</td><td>${fmt(d.z)}</td><td class="${d.p<.05?'p-sig':''}">${pFmt(d.p)}</td><td>${esc(conclusion)}</td></tr>`;
@@ -670,7 +862,7 @@ function renderComparisons(r){
  }else{$('delongComparisonSection').classList.add('hidden');$('delongTable').innerHTML='';$('delongNote').textContent='';}
  if(r.mcnemarCompare){
  $('mcnemarComparisonSection').classList.remove('hidden');
- const mh=['Comparison','Accuracy 1','Accuracy 2','Difference','Model 1 Correct / Model 2 Incorrect','Model 1 Incorrect / Model 2 Correct','Discordant','Exact P','Corrected P','Conclusion'];
+ const mh=['Comparison','Accuracy 1','Accuracy 2','Difference','Model 1 Correct / Model 2 Incorrect','Model 1 Incorrect / Model 2 Correct','Discordant Cases','Exact P','Corrected P','Conclusion'];
  $('mcnemarTable').innerHTML='<thead><tr>'+mh.map(x=>`<th>${x}</th>`).join('')+'</tr></thead><tbody>'+r.comparisons.map(c=>{
  const m=c.mcnemar,a1=c.a.roc.confusion.accuracy,a2=c.b.roc.confusion.accuracy, conclusion=m.exactP<.05?(a1>a2?c.a.name:c.b.name):'No significant difference';
  return `<tr><td class="left">${esc(c.a.name)} vs ${esc(c.b.name)}</td><td>${pct(a1)}</td><td>${pct(a2)}</td><td>${pct(a1-a2)}</td><td>${m.b}</td><td>${m.c}</td><td>${m.discordant}</td><td class="${m.exactP<.05?'p-sig':''}">${pFmt(m.exactP)}</td><td>${pFmt(m.ccP)}</td><td>${esc(conclusion)}</td></tr>`;
@@ -678,14 +870,31 @@ function renderComparisons(r){
  $('mcnemarNote').textContent=r.combine?' The combined model was developed and its cutoff selected in the same dataset; the apparent accuracy comparison may be optimistic.':'';
  }else{$('mcnemarComparisonSection').classList.add('hidden');$('mcnemarTable').innerHTML='';$('mcnemarNote').textContent='';}
 }
+function criterionLabel(c){return ({cv_auc:'Cross-validated AUC',auc:'Apparent AUC',aic:'AIC',bic:'BIC',youden:'Apparent Youden index',accuracy:'Apparent Accuracy'})[c]||c;}
+function renderSubsetResults(r){
+ const s=r.subset, rec=s.recommended;
+ const metricText=s.criterion==='cv_auc'?`CV AUC = ${fmt(rec.cvAuc)}`:s.criterion==='auc'?`AUC = ${fmt(rec.ci.auc)}`:s.criterion==='aic'?`AIC = ${fmt(rec.aic,2)}`:s.criterion==='bic'?`BIC = ${fmt(rec.bic,2)}`:s.criterion==='youden'?`Youden index = ${fmt(rec.roc.best.youden)}`:`Accuracy = ${pct(rec.roc.confusion.accuracy)}`;
+ $('subsetRecommendation').innerHTML=`<strong>Recommended subset:</strong> ${esc(rec.label)} &nbsp;|&nbsp; ${metricText}<br><span class="footer-note">Apparent cutoff = ${fmt(rec.roc.best.cutoff,5)}; CV cutoff = ${fmt(rec.cvRoc.best.cutoff,5)}</span>`;
+ $('subsetSummary').innerHTML=[['Evaluated Subsets',s.results.length],['Selection Criterion',criterionLabel(s.criterion)],['CV Folds Used',s.foldsUsed],['Random Seed',s.seed]].map(x=>`<div class="metric"><div class="k">${x[0]}</div><div class="v">${esc(x[1])}</div></div>`).join('');
+ const h=['Rank','Subset','Number of Markers','Apparent AUC','CV AUC','Apparent cutoff','CV cutoff','Apparent Youden','Apparent Sensitivity','Apparent Specificity','Apparent Accuracy','CV Youden','CV Sensitivity','CV Specificity','CV Accuracy','AIC','BIC','Recommended'];
+ $('subsetTable').innerHTML='<thead><tr>'+h.map(x=>`<th>${x}</th>`).join('')+'</tr></thead><tbody>'+s.ranked.map(x=>`<tr><td>${x.rank}</td><td class="left">${esc(x.label)}</td><td>${x.markerCount}</td><td>${fmt(x.ci.auc)}</td><td>${fmt(x.cvAuc)}</td><td>${fmt(x.roc.best.cutoff,5)}</td><td>${fmt(x.cvRoc.best.cutoff,5)}</td><td>${fmt(x.roc.best.youden)}</td><td>${pct(x.roc.confusion.sensitivity)}</td><td>${pct(x.roc.confusion.specificity)}</td><td>${pct(x.roc.confusion.accuracy)}</td><td>${fmt(x.cvRoc.best.youden)}</td><td>${pct(x.cvRoc.confusion.sensitivity)}</td><td>${pct(x.cvRoc.confusion.specificity)}</td><td>${pct(x.cvRoc.confusion.accuracy)}</td><td>${fmt(x.aic,2)}</td><td>${fmt(x.bic,2)}</td><td>${x===rec?'Yes':''}</td></tr>`).join('')+'</tbody>';
+ $('subsetMethodNote').textContent=(s.criterion==='cv_auc'
+  ?`All eligible subsets are fitted by logistic regression. Cross-validated AUC is based on stratified ${s.foldsUsed}-fold out-of-fold predictions. The recommended subset is the smallest model within 0.01 of the highest CV AUC; remaining ties favor higher CV AUC and then lower BIC. This parsimony rule reduces the tendency to select unnecessarily large panels. `
+  :`All eligible subsets are fitted by logistic regression and ranked by ${criterionLabel(s.criterion)}. Ties favor models with fewer markers. Apparent metrics, AIC, and BIC are calculated from the full dataset and may be optimistic when used for model selection. `)
+  +`The apparent cutoff is the maximum-Youden threshold from the full-data model probabilities. The CV cutoff is the maximum-Youden threshold from pooled out-of-fold probabilities. CV sensitivity, specificity, and accuracy are calculated at that CV cutoff. If an independent validation cohort is available, determine the model and cutoff in the training data and apply them unchanged to the validation data rather than re-optimizing the cutoff there.`;
+ const terms=rec.fit.originalCoef.map((coef,i)=>`${signed(coef)} × ${esc(rec.names[i])}`).join(' ');
+ $('subsetFormulaBox').innerHTML=`logit[P(Positive)] = ${fmt(rec.fit.originalIntercept,6)} ${terms}<br>P(Positive) = 1 / [1 + exp(−logit(P))]`;
+ $('subsetFormulaSection').classList.remove('hidden');
+}
+
 function makeROCsvg(models){
- const W=760,H=560,L=82,R=28,T=28,B=70,pw=W-L-R,ph=H-T-B; const colors=['#2457c5','#d92d20','#067647'];
+ const W=760,H=560,L=82,R=28,T=28,B=70,pw=W-L-R,ph=H-T-B; const colors=['#2457c5','#d92d20','#067647','#7a5af8','#b54708','#0e7090'];
  let s=`<svg id="rocSvg" xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img"><rect width="100%" height="100%" fill="white"/>`;
  for(let k=0;k<=5;k++){const v=k/5,x=L+v*pw,y=T+(1-v)*ph;s+=`<line x1="${x}" y1="${T}" x2="${x}" y2="${T+ph}" stroke="#e4e8ef"/><line x1="${L}" y1="${y}" x2="${L+pw}" y2="${y}" stroke="#e4e8ef"/><text x="${x}" y="${T+ph+27}" text-anchor="middle" font-size="13" fill="#475467">${v.toFixed(1)}</text><text x="${L-14}" y="${y+4}" text-anchor="end" font-size="13" fill="#475467">${v.toFixed(1)}</text>`;}
  s+=`<line x1="${L}" y1="${T+ph}" x2="${L+pw}" y2="${T}" stroke="#98a2b3" stroke-width="2" stroke-dasharray="7 7"/><line x1="${L}" y1="${T}" x2="${L}" y2="${T+ph}" stroke="#344054" stroke-width="2"/><line x1="${L}" y1="${T+ph}" x2="${L+pw}" y2="${T+ph}" stroke="#344054" stroke-width="2"/>`;
  models.forEach((m,i)=>{const pts=m.roc.points.map(p=>`${L+p.fpr*pw},${T+(1-p.tpr)*ph}`).join(' ');s+=`<polyline fill="none" stroke="${colors[i]}" stroke-width="4" points="${pts}"/>`;});
  s+=`<text x="${L+pw/2}" y="${H-18}" text-anchor="middle" font-size="17" fill="#101828">1 − Specificity (False Positive Rate)</text><text transform="translate(24 ${T+ph/2}) rotate(-90)" text-anchor="middle" font-size="17" fill="#101828">Sensitivity (True Positive Rate)</text>`;
- let ly=T+18;models.forEach((m,i)=>{s+=`<line x1="${L+pw-240}" y1="${ly}" x2="${L+pw-207}" y2="${ly}" stroke="${colors[i]}" stroke-width="4"/><text x="${L+pw-198}" y="${ly+5}" font-size="14" fill="#344054">${esc(m.name)} (AUC=${fmt(m.ci.auc)})</text>`;ly+=25;});
+ let ly=T+18;models.forEach((m,i)=>{s+=`<line x1="${L+pw-285}" y1="${ly}" x2="${L+pw-252}" y2="${ly}" stroke="${colors[i]}" stroke-width="4"/><text x="${L+pw-243}" y="${ly+5}" font-size="13" fill="#344054">${esc(m.name)} (AUC=${fmt(m.ci.auc)})</text>`;ly+=25;});
  return s+'</svg>';
 }
 
@@ -693,34 +902,43 @@ $('downloadSvgBtn').addEventListener('click',()=>{const svg=$('rocSvg'); if(!svg
 $('downloadPngBtn').addEventListener('click',()=>{const svg=$('rocSvg');if(!svg)return;const text=new XMLSerializer().serializeToString(svg),blob=new Blob([text],{type:'image/svg+xml'}),url=URL.createObjectURL(blob),img=new Image();img.onload=()=>{const scale=3,canvas=document.createElement('canvas');canvas.width=760*scale;canvas.height=560*scale;const ctx=canvas.getContext('2d');ctx.scale(scale,scale);ctx.fillStyle='white';ctx.fillRect(0,0,760,560);ctx.drawImage(img,0,0);URL.revokeObjectURL(url);canvas.toBlob(b=>downloadBlob(b,'ROC_curve_300dpi.png'),'image/png');};img.src=url;});
 function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
 
-function summaryRows(r){return r.models.map(m=>{const c=m.roc.confusion,b=m.roc.best;return {'Model':m.name,'AUC':m.ci.auc,'95% CI Lower':m.ci.lower,'95% CI Upper':m.ci.upper,'Classification Direction':m.roc.direction===1?'LARGE: ≥ cutoff':'SMALL: ≤ cutoff','Cutoff':b.cutoff,'Youden index':b.youden,'Sensitivity (Positive)':c.sensitivity,'Specificity (Negative)':c.specificity,'Accuracy':c.accuracy,'PPV (Predicted Positive)':c.ppv,'NPV (Predicted Negative)':c.npv,'TP (Positive Correct)':c.tp,'TN (Negative Correct)':c.tn,'FP (Negative Classified Positive)':c.fp,'FN (Positive Classified Negative)':c.fn};});}
+function summaryRows(r){return r.models.map(m=>{const c=m.roc.confusion,b=m.roc.best;return {'Model':m.name,'AUC':m.ci.auc,'95% CI Lower':m.ci.lower,'95% CI Upper':m.ci.upper,'Classification Direction':m.roc.direction===1?'LARGE: ≥ cutoff':'SMALL: ≤ cutoff','Cutoff':b.cutoff,'Youden index':b.youden,'Sensitivity (Positive)':c.sensitivity,'Specificity (Negative)':c.specificity,'Accuracy':c.accuracy,'PPV (Predicted Positive)':c.ppv,'NPV (Predicted Negative)':c.npv,'TP (Positive Correct)':c.tp,'TN (Negative Correct)':c.tn,'FP (Negative Misclassified Positive)':c.fp,'FN (Positive Misclassified Negative)':c.fn};});}
 $('downloadExcelBtn').addEventListener('click',()=>{
  if(!lastResult||!excelReady())return; const r=lastResult,wb=XLSX.utils.book_new();
  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(summaryRows(r)),'ROC Statistics');
  if(r.models.length>1){
  if(r.youdenCompare){
- const yb=r.comparisons.map(c=>({'Comparison':`${c.a.name} vs ${c.b.name}`,'Youden 1':c.youden.youden1,'Youden 2':c.youden.youden2,'Youden Difference':c.youden.difference,'95% CI Lower':c.youden.ciLow,'95% CI Upper':c.youden.ciHigh,'P value':c.youden.p,'Bootstrap Iterations':c.youden.B,'Random Seed':c.youden.seed}));
+ const yb=r.comparisons.map(c=>({'Comparison':`${c.a.name} vs ${c.b.name}`,'Youden 1':c.youden.youden1,'Youden 2':c.youden.youden2,'Youden Difference':c.youden.difference,'95% CI Lower':c.youden.ciLow,'95% CI Upper':c.youden.ciHigh,'P Value':c.youden.p,'Bootstrap Iterations':c.youden.B,'Random Seed':c.youden.seed}));
  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(yb),'Youden Comparison');
  }
  if(r.delongCompare){
- const d=r.comparisons.map(c=>({'Comparison':`${c.a.name} vs ${c.b.name}`,'AUC 1':c.delong.auc1,'AUC 2':c.delong.auc2,'AUC Difference':c.delong.difference,'Z':c.delong.z,'P value':c.delong.p}));
+ const d=r.comparisons.map(c=>({'Comparison':`${c.a.name} vs ${c.b.name}`,'AUC 1':c.delong.auc1,'AUC 2':c.delong.auc2,'AUC Difference':c.delong.difference,'Z':c.delong.z,'P Value':c.delong.p}));
  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(d),'DeLong');
  }
  if(r.mcnemarCompare){
- const m=r.comparisons.map(c=>({'Comparison':`${c.a.name} vs ${c.b.name}`,'Accuracy 1':c.a.roc.confusion.accuracy,'Accuracy 2':c.b.roc.confusion.accuracy,'Accuracy Difference':c.a.roc.confusion.accuracy-c.b.roc.confusion.accuracy,'Model 1 Correct / Model 2 Incorrect':c.mcnemar.b,'Model 1 Incorrect / Model 2 Correct':c.mcnemar.c,'Discordant':c.mcnemar.discordant,'Exact P':c.mcnemar.exactP,'Continuity-corrected P':c.mcnemar.ccP}));
+ const m=r.comparisons.map(c=>({'Comparison':`${c.a.name} vs ${c.b.name}`,'Accuracy 1':c.a.roc.confusion.accuracy,'Accuracy 2':c.b.roc.confusion.accuracy,'Accuracy Difference':c.a.roc.confusion.accuracy-c.b.roc.confusion.accuracy,'Model 1 Correct / Model 2 Incorrect':c.mcnemar.b,'Model 1 Incorrect / Model 2 Correct':c.mcnemar.c,'Discordant Cases':c.mcnemar.discordant,'Exact P':c.mcnemar.exactP,'Continuity-corrected P':c.mcnemar.ccP}));
  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(m),'McNemar');
  }
  }
+ if(r.subsetSearch&&r.subset){
+  const ss=r.subset.ranked.map(x=>({'Rank':x.rank,'Subset':x.label,'Number of Markers':x.markerCount,'Apparent AUC':x.ci.auc,'Cross-validated AUC':x.cvAuc,'Apparent cutoff':x.roc.best.cutoff,'CV cutoff':x.cvRoc.best.cutoff,'Apparent Youden index':x.roc.best.youden,'Apparent Sensitivity':x.roc.confusion.sensitivity,'Apparent Specificity':x.roc.confusion.specificity,'Apparent Accuracy':x.roc.confusion.accuracy,'CV Youden index':x.cvRoc.best.youden,'CV Sensitivity':x.cvRoc.confusion.sensitivity,'CV Specificity':x.cvRoc.confusion.specificity,'CV Accuracy':x.cvRoc.confusion.accuracy,'AIC':x.aic,'BIC':x.bic,'Recommended':x===r.subset.recommended?'Yes':''}));
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(ss),'Best Subset');
+ }
  const methodRows=[
- {'Item':'Basic ROC','Method / Assumptions':`Positive Outcome Value = ${r.positive}, Negative Outcome Value = ${r.negative}; Sensitivity is the positive-case identification rate, and specificity is the negative-case identification rate; Marker 1 setting = ${directionLabel(r.dir1)}, direction used = ${usedDirectionLabel(r.A)}${r.m2?`; Marker 2 setting = ${directionLabel(r.dir2)}, direction used = ${usedDirectionLabel(r.B)}`:''}; The combined probability is P(Positive) and always uses LARGE. Maximum-Youden cutoffs are midpoints between adjacent observations; if multiple cutoffs share the maximum, the median cutoff is used.`},
+ {'Item':'Basic ROC','Method / Assumptions':`Positive Outcome Value = ${r.positive}, Negative Outcome Value = ${r.negative}; Sensitivity is the positive-case identification rate, and specificity is the negative-case identification rate; ${r.markerConfigs.map((mc,i)=>`Marker ${mc.slot} (${mc.name}) setting = ${directionLabel(mc.direction)}, direction used = ${usedDirectionLabel(r.markerModels[i])}`).join('; ')}. ${r.combine?'The combined model uses all selected markers; its probability is P(Positive) and always uses LARGE. ':''}Maximum-Youden cutoffs are midpoints between adjacent observations; if multiple cutoffs share the maximum, the median cutoff is used. When multiple markers are selected, all ROC curves use the same complete-case dataset.`},
  {'Item':'Paired Bootstrap for Youden Index','Method / Assumptions':'Same cases and outcome; stratified resampling of positive and negative cases with replacement; identical resampled indices across models; fixed original ROC direction; re-optimization of maximum J in each iteration; percentile 95% CI; two-sided P = 2×min[P(ΔJ*≤0),P(ΔJ*≥0)].'},
  {'Item':'DeLong’s test','Method / Assumptions':'Paired ROC curves from the same cases; compares AUC differences while accounting for covariance between model scores; does not compare cutoff, sensitivity, specificity, or accuracy.'},
- {'Item':'McNemar’s test','Method / Assumptions':'Paired binary classifications from the same cases; each model uses its own maximum-Youden cutoff; the primary result is a two-sided exact P value, with a continuity-corrected P value also reported.'}
+ {'Item':'McNemar’s test','Method / Assumptions':'Paired binary classifications from the same cases; each model uses its own maximum-Youden cutoff; the primary result is a two-sided exact P Value, with a continuity-corrected P Value also reported.'},
+ {'Item':'Best Subset Analysis','Method / Assumptions':r.subsetSearch&&r.subset?`All non-empty subsets up to ${r.subset.maxSize} markers are fitted by logistic regression on the same complete cases. Stratified ${r.subset.foldsUsed}-fold cross-validation (seed ${r.subset.seed}) provides out-of-fold predictions and CV AUC. Apparent cutoff is the maximum-Youden threshold from full-data model probabilities. CV cutoff is the maximum-Youden threshold from pooled out-of-fold probabilities; CV sensitivity, specificity, and accuracy are calculated at that CV cutoff. AIC and BIC use the apparent full-data likelihood. Selection criterion = ${criterionLabel(r.subset.criterion)}. When CV AUC is used, the recommended subset is the smallest model within 0.01 of the highest CV AUC.`:'Not requested.'}
  ];
  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(methodRows),'Methods and Assumptions');
- if(r.combine)XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet([{'Intercept':r.fit.originalIntercept,[`${r.m1} coefficient`]:r.fit.originalCoef[0],[`${r.m2} coefficient`]:r.fit.originalCoef[1]}]),'Logistic Model');
+ if(r.combine){
+ const coefRow={'Intercept':r.fit.originalIntercept};
+ r.markerConfigs.forEach((mc,i)=>coefRow[`${mc.name} coefficient`]=r.fit.originalCoef[i]);
+ XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet([coefRow]),'Logistic Model');
+ }
  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(r.predictions),'Case-Level Predictions'); XLSX.writeFile(wb,'ROC_Analysis_Results.xlsx');
 });
-$('downloadCsvBtn').addEventListener('click',()=>{if(!lastResult)return;const data=summaryRows(lastResult),heads=Object.keys(data[0]);const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const csv='\ufeff'+heads.map(q).join(',')+'\n'+data.map(r=>heads.map(h=>q(r[h])).join(',')).join('\n');downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),'ROC_Summary_Table.csv');});
+$('downloadCsvBtn').addEventListener('click',()=>{if(!lastResult)return;const data=summaryRows(lastResult),heads=Object.keys(data[0]);const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const csv='\ufeff'+heads.map(q).join(',')+'\n'+data.map(r=>heads.map(h=>q(r[h])).join(',')).join('\n');downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),'ROC_Summary.csv');});
 </script>
 </body></html>
